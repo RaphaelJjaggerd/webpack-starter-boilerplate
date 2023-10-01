@@ -1,5 +1,7 @@
 // Webpack config file uses commonjs thats why we use module.exports and require()
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   mode: 'development',
   entry: './src/index.js',
@@ -15,4 +17,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Webpack Boilerplate',
+      filename: 'index.html',
+      template: './src/index.html',
+    }),
+  ],
 };
