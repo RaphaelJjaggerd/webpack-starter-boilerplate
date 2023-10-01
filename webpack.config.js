@@ -1,6 +1,7 @@
 // Webpack config file uses commonjs thats why we use module.exports and require()
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -23,7 +24,18 @@ module.exports = {
     rules: [
       {
         test: /\.css$/, // RegEx to find any file ending with .css
-        use: ['style-loader', 'css-loader'], //We will apply style-loader and css loader to the test(any file ending with .css)
+        use: [MiniCssExtractPlugin.loader, 'css-loader'], //We will apply style-loader and css loader to the test(any file ending with .css)
+      },
+      {
+        test: /\.js$/, // Selecting files that end with .js
+        exclude: /node_modules/, // We are excluding our node_modules
+        // Use can be an object or an array
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
     ],
   },
@@ -33,5 +45,6 @@ module.exports = {
       filename: 'index.html', // This is the file name of the html that will be created in dist foldr
       template: './src/index.html', // This is the html file we are actively coding in in our src folder.
     }),
+    new MiniCssExtractPlugin(),
   ],
 };
